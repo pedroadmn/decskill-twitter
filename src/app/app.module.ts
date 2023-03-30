@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TweetFormComponent } from './components/tweet-form/tweet-form.component';
 import {FormsModule} from "@angular/forms";
+import { NgxWebstorageModule } from "ngx-webstorage";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {FormsModule} from "@angular/forms";
     AppRoutingModule,
     NgbModule,
     FormsModule,
+    NgxWebstorageModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Tweet} from "../../models/tweet";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-tweet-form',
@@ -6,9 +8,31 @@ import {Component} from '@angular/core';
   styleUrls: ['./tweet-form.component.scss']
 })
 export class TweetFormComponent {
+  @Input() user!: User;
+  @Output() newTweet = new EventEmitter<Omit<Tweet, 'id'>>();
+
+  tweetContent = '';
 
   constructor() {}
 
+  get isTweetContentEmpty() {
+    return this.tweetContent.trim().length === 0;
+  }
+
   ngOnInit(): void {}
 
+  onSubmit($event: Event) {
+    console.log($event);
+    $event.preventDefault();
+    if(this.isTweetContentEmpty) {
+      return;
+    }
+
+    this.newTweet.emit({
+      content: this.tweetContent,
+      user: this.user,
+    });
+
+    this.tweetContent = '';
+  }
 }
