@@ -5,5 +5,5 @@
     <i class="fa-solid fa-bars"></i>
   </div>
   <app-tweet-form [user]="user" (newTweet)="addNewTweet($event)"></app-tweet-form>
-  <app-tweet [user]="user" [tweets]="tweets"></app-tweet>
+  <app-tweet [user]="user" [tweets]="tweets" (removeTweet)="removeTweet($event)"></app-tweet>
 </div>

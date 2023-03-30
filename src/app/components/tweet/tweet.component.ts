@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {User} from "../../models/user";
 import {Tweet} from "../../models/tweet";
 
@@ -10,4 +10,9 @@ import {Tweet} from "../../models/tweet";
 export class TweetComponent {
   @Input() user!: User;
   @Input() tweets: Tweet[] = [];
+  @Output() removeTweet = new EventEmitter<string>();
+
+  deleteTweet(tweetId: string) {
+    this.removeTweet.emit(tweetId);
+  }
 }

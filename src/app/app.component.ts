@@ -40,4 +40,14 @@ export class AppComponent implements OnInit {
       this.localStorage.store(LOCAL_STORAGE_TWEETS_KEY, [event]);
     }
   }
+
+  removeTweet(tweetId: any) {
+    this.tweets.forEach((tweet,index)=>{
+      if(tweet.id === tweetId) {
+        this.tweets.splice(index,1);
+      }
+    });
+
+    this.localStorage.store(LOCAL_STORAGE_TWEETS_KEY, this.tweets);
+  }
 }
