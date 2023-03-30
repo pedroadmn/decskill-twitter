@@ -1,18 +1,13 @@
-<div class="timeline">
-  <!--This header could be another component -->
-  <div class="timeline__header">
-    <h2>Home</h2>
-    <i class="fa-solid fa-bars"></i>
-  </div>
-  <div class="tweetBox">
+<div class="tweetbox">
+  <div class="tweetbox-form">
     <form (ngSubmit)="onSubmit($event)">
-      <div class="tweetbox__input">
+      <div class="tweetbox-form-input">
         <img
           src="{{ user.profileImage }}"
           alt=""/>
         <input name="content" [(ngModel)]="tweetContent" type="text" placeholder="What's happening?" />
       </div>
-      <button class="tweetBox__tweetButton" [disabled]="isTweetContentEmpty" [ngClass]="isTweetContentEmpty ? 'deactive-tweet-btn' : 'active--tweet-btn'">Tweet</button>
+      <button class="tweetbox-form-button" [disabled]="isTweetContentEmpty" [ngClass]="isTweetContentEmpty ? 'deactive-tweet-btn' : 'active--tweet-btn'">Tweet</button>
     </form>
   </div>
 </div>

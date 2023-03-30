@@ -1,1 +1,12 @@
+.timeline__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e6ecf0;
+  padding: 15px 20px;
+}
 
+.timeline__header h2 {
+  font-size: 20px;
+  font-weight: 800;
+}

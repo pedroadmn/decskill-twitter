@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {User} from "../../models/user";
+import {Tweet} from "../../models/tweet";
 
 @Component({
   selector: 'app-tweet',
@@ -6,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./tweet.component.scss']
 })
 export class TweetComponent {
-
+  @Input() user!: User;
+  @Input() tweets: Tweet[] = [];
 }
