@@ -9,7 +9,7 @@ import {User} from "../../models/user";
 })
 export class TweetFormComponent {
   @Input() user!: User;
-  @Output() newTweet = new EventEmitter<Omit<Tweet, 'id'>>();
+  @Output() newTweet = new EventEmitter<Tweet>();
 
   tweetContent = '';
 
@@ -29,6 +29,7 @@ export class TweetFormComponent {
     }
 
     this.newTweet.emit({
+      id: Date.now().toString(),
       content: this.tweetContent,
       user: this.user,
     });
