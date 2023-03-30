@@ -7,11 +7,13 @@ import { AppComponent } from './app.component';
 import { TweetFormComponent } from './components/tweet-form/tweet-form.component';
 import {FormsModule} from "@angular/forms";
 import { NgxWebstorageModule } from "ngx-webstorage";
+import { TweetComponent } from './components/tweet/tweet.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TweetFormComponent
+    TweetFormComponent,
+    TweetComponent
   ],
   imports: [
     BrowserModule,
