@@ -5,7 +5,8 @@ import { DatePipe } from "@angular/common";
 import { LocalStorageService } from "ngx-webstorage";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmModalComponent } from "../confirm-modal/confirm-modal.component";
-import { CONFIRM_DELETE_DESCRIPTION, CONFIRM_DELETE_TITLE } from "../../app.constants";
+import { CONFIRM_DELETE_DESCRIPTION, CONFIRM_DELETE_TITLE, LOCAL_STORAGE_TWEETS_KEY } from "../../app.constants";
+import {interval, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-tweet',
@@ -17,7 +18,8 @@ export class TweetComponent implements OnInit{
   @Input() tweets: Tweet[] = [];
   @Output() removeTweet = new EventEmitter<string>();
 
-  tweetsIntervalId: any;
+
+  private intervalSubscription!: Subscription;
 
   constructor(private datePipe: DatePipe,
               private localStorage: LocalStorageService,
@@ -29,16 +31,19 @@ export class TweetComponent implements OnInit{
   }
 
   ngOnInit() {
-    const localStorageIntervalId = this.localStorage.retrieve('tweetsIntervalId');
-    if (localStorageIntervalId) {
-      this.tweetsIntervalId = localStorageIntervalId;
-      this.startInterval();
-    } else {
-      this.startInterval();
-    }
+    this.startInterval();
   }
 
-  async getElapsedTime(date: Date): Promise<string> {
+  private startInterval() {
+    this.intervalSubscription = interval(1000).subscribe(() => {
+      for (const tweet of this.tweets) {
+        tweet.elapsedTime = this.getElapsedTime(tweet.createAt);
+      }
+      this.localStorage.store(LOCAL_STORAGE_TWEETS_KEY, this.tweets);
+    });
+  }
+
+  getElapsedTime(date: Date): string {
     const now = new Date();
     const elapsed = now.getTime() - date.getTime();
     const seconds = Math.floor(elapsed / 1000);
@@ -53,21 +58,6 @@ export class TweetComponent implements OnInit{
     return this.datePipe.transform(date, 'MM/dd/yyyy HH:mm:ss');
   }
 
-  startInterval() {
-    this.tweetsIntervalId = setInterval(() => {
-      this.tweets.forEach(async tweet => {
-        tweet.elapsedTime = await this.getElapsedTime(tweet.createAt);
-      });
-    }, 1000);
-
-    this.localStorage.store('tweetsIntervalId', this.tweetsIntervalId);
-  }
-
-  stopInterval() {
-    clearInterval(this.tweetsIntervalId);
-    this.localStorage.clear('tweetsIntervalId');
-  }
-
   openConfirmDeleteModal(tweetId: string) {
     const modalRef = this.modalService.open(ConfirmModalComponent);
     modalRef.componentInstance.title = CONFIRM_DELETE_TITLE;
@@ -75,5 +65,11 @@ export class TweetComponent implements OnInit{
     modalRef.componentInstance.confirmed.subscribe(() => {
         this.deleteTweet(tweetId);
     });
+  }
+
+  ngOnDestroy() {
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
+    }
   }
 }

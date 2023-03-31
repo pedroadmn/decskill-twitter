@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Tweet} from "../../models/tweet";
-import {User} from "../../models/user";
-import {TWEET_MAX_CHARACTERS} from "../../app.constants";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Tweet } from "../../models/tweet";
+import { User } from "../../models/user";
+import { TWEET_MAX_CHARACTERS } from "../../app.constants";
 
 @Component({
   selector: 'app-tweet-form',
@@ -45,9 +45,5 @@ export class TweetFormComponent {
       return 0;
     }
     return TWEET_MAX_CHARACTERS - this.tweetContent.length;
-  }
-
-  onKeyDown(tweetContent: any) {
-    console.log(tweetContent);
   }
 }

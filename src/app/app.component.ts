@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {User} from "./models/user";
-import {LocalStorageService} from "ngx-webstorage";
-import {Tweet} from "./models/tweet";
-import {LOCAL_STORAGE_TWEETS_KEY} from "./app.constants";
+import { Component, OnInit } from '@angular/core';
+import { User } from "./models/user";
+import { LocalStorageService } from "ngx-webstorage";
+import { Tweet } from "./models/tweet";
+import { LOCAL_STORAGE_TWEETS_KEY } from "./app.constants";
 
 @Component({
   selector: 'app-root',
@@ -25,10 +25,6 @@ export class AppComponent implements OnInit {
     name: 'Pedro',
     username: 'pedroadmn',
     profileImage: 'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png'
-  }
-
-  getTweets() {
-
   }
 
   addNewTweet(event: any) {
