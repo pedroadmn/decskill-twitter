@@ -8,6 +8,7 @@ import { TweetFormComponent } from './components/tweet-form/tweet-form.component
 import {FormsModule} from "@angular/forms";
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { TweetComponent } from './components/tweet/tweet.component';
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { TweetComponent } from './components/tweet/tweet.component';
     FormsModule,
     NgxWebstorageModule.forRoot(),
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

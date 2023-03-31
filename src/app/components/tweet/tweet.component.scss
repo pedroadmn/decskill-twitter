@@ -18,6 +18,19 @@
   column-gap: 100px;
 }
 
+.tweet-header-text {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  column-gap: 20px;
+
+  h2 {
+    font-size: 15px;
+    color: #92b5cb;
+  }
+
+}
+
 .tweet-header-text h3 {
   font-size: 15px;
   margin-bottom: 5px;

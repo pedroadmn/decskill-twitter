@@ -5,9 +5,12 @@
         <img
           src="{{ user.profileImage }}"
           alt=""/>
-        <input name="content" [(ngModel)]="tweetContent" type="text" placeholder="What's happening?" />
+        <input name="content" [(ngModel)]="tweetContent" maxlength="130" type="text" placeholder="What's happening?" />
       </div>
-      <button class="tweetbox-form-button" [disabled]="isTweetContentEmpty" [ngClass]="isTweetContentEmpty ? 'deactive-tweet-btn' : 'active--tweet-btn'">Tweet</button>
+      <div>
+        <h3>{{ getRemainingCharacters() }}</h3>
+        <button class="tweetbox-form-button" [disabled]="isTweetContentEmpty" [ngClass]="isTweetContentEmpty ? 'deactive-tweet-btn' : 'active--tweet-btn'">Tweet</button>
+      </div>
     </form>
   </div>
 </div>
