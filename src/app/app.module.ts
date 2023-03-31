@@ -5,23 +5,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TweetFormComponent } from './components/tweet-form/tweet-form.component';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { TweetComponent } from './components/tweet/tweet.component';
-import {DatePipe} from "@angular/common";
+import { DatePipe } from "@angular/common";
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TweetFormComponent,
-    TweetComponent
+    TweetComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    NgxWebstorageModule.forRoot(),
+    NgxWebstorageModule.forRoot()
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

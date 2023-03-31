@@ -39,6 +39,23 @@
 }
 
 .tweetbox-form-button {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  column-gap: 20px;
+}
+
+.remaining-characters {
+  font-size: 20px;
+  color: #524f4f;
+}
+
+.alert-characters-limit {
+  font-size: 20px;
+  color: #e82a2a;
+}
+
+.tweet-button {
   background-color: #50b7f5;
   border: none;
   color: white;

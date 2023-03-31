@@ -1,8 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {User} from "../../models/user";
-import {Tweet} from "../../models/tweet";
-import {DatePipe} from "@angular/common";
-import {LocalStorageService} from "ngx-webstorage";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { User } from "../../models/user";
+import { Tweet } from "../../models/tweet";
+import { DatePipe } from "@angular/common";
+import { LocalStorageService } from "ngx-webstorage";
+import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmModalComponent } from "../confirm-modal/confirm-modal.component";
+import { CONFIRM_DELETE_DESCRIPTION, CONFIRM_DELETE_TITLE } from "../../app.constants";
 
 @Component({
   selector: 'app-tweet',
@@ -17,7 +20,8 @@ export class TweetComponent implements OnInit{
   tweetsIntervalId: any;
 
   constructor(private datePipe: DatePipe,
-              private localStorage: LocalStorageService) {
+              private localStorage: LocalStorageService,
+              private modalService: NgbModal) {
   }
 
   deleteTweet(tweetId: string) {
@@ -36,8 +40,8 @@ export class TweetComponent implements OnInit{
 
   async getElapsedTime(date: Date): Promise<string> {
     const now = new Date();
-    const elapsed = now.getTime() - date.getTime(); // milissegundos decorridos desde a publicação do tweet
-    const seconds = Math.floor(elapsed / 1000); // segundos decorridos
+    const elapsed = now.getTime() - date.getTime();
+    const seconds = Math.floor(elapsed / 1000);
     if (seconds < 60) {
       return `${seconds} s`;
     } else {
@@ -62,5 +66,14 @@ export class TweetComponent implements OnInit{
   stopInterval() {
     clearInterval(this.tweetsIntervalId);
     this.localStorage.clear('tweetsIntervalId');
+  }
+
+  openConfirmDeleteModal(tweetId: string) {
+    const modalRef = this.modalService.open(ConfirmModalComponent);
+    modalRef.componentInstance.title = CONFIRM_DELETE_TITLE;
+    modalRef.componentInstance.message = CONFIRM_DELETE_DESCRIPTION;
+    modalRef.componentInstance.confirmed.subscribe(() => {
+        this.deleteTweet(tweetId);
+    });
   }
 }

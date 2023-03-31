@@ -20,7 +20,7 @@
           <p>{{ tweet.content }}</p>
         </div>
       </div>
-      <i class="fa-solid fa-trash" (click)="deleteTweet(tweet.id)"></i>
+      <i class="fa-solid fa-trash" (click)="openConfirmDeleteModal(tweet.id)"></i>
     </div>
   </div>
 </div>
