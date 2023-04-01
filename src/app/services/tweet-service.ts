@@ -37,11 +37,9 @@ export class TweetService {
 
   removeTweet(tweetId: string) {
     const tweets = this.getTweets();
-    tweets.forEach((tweet,index)=>{
-      if(tweet.id === tweetId) {
-        tweets.splice(index,1);
-      }
-    });
+
+    const tweetIndexToRemove = tweets.findIndex(item => item.id === tweetId);
+    tweets.splice(tweetIndexToRemove, 1);
 
     this.localStorage.store(LOCAL_STORAGE_TWEETS_KEY, tweets);
   }
