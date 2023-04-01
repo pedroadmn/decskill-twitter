@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from "./models/user";
-import { LocalStorageService } from "ngx-webstorage";
 import { Tweet } from "./models/tweet";
-import { LOCAL_STORAGE_TWEETS_KEY } from "./app.constants";
+import { TweetService } from "./services/tweet-service";
+import {User} from "./models/user";
 
 @Component({
   selector: 'app-root',
@@ -11,39 +10,21 @@ import { LOCAL_STORAGE_TWEETS_KEY } from "./app.constants";
 })
 export class AppComponent implements OnInit {
 
+  loggedUser!: User;
   tweets: Tweet[] = [];
 
-  constructor(private localStorage: LocalStorageService) { }
+  constructor(private tweetService: TweetService) { }
 
   ngOnInit() {
-    this.tweets = this.localStorage.retrieve(LOCAL_STORAGE_TWEETS_KEY);
+    this.loggedUser = this.tweetService.getLoggedUser();
+    this.tweets = this.tweetService.getTweets();
   }
 
-  // Mocking the user that is creating the tweets.
-  user: User = {
-    id: '1',
-    name: 'Pedro',
-    username: 'pedroadmn',
-    profileImage: 'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png'
-  }
-
-  addNewTweet(event: any) {
-    const tweets = this.localStorage.retrieve(LOCAL_STORAGE_TWEETS_KEY);
-    if (tweets) {
-      tweets.push(event);
-      this.localStorage.store(LOCAL_STORAGE_TWEETS_KEY, tweets);
-    } else {
-      this.localStorage.store(LOCAL_STORAGE_TWEETS_KEY, [event]);
-    }
+  addNewTweet(tweet: Tweet) {
+    this.tweetService.saveTweet(tweet);
   }
 
   removeTweet(tweetId: any) {
-    this.tweets.forEach((tweet,index)=>{
-      if(tweet.id === tweetId) {
-        this.tweets.splice(index,1);
-      }
-    });
-
-    this.localStorage.store(LOCAL_STORAGE_TWEETS_KEY, this.tweets);
+    this.tweetService.removeTweet(tweetId);
   }
 }

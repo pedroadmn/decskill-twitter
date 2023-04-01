@@ -5,7 +5,12 @@ import { DatePipe } from "@angular/common";
 import { LocalStorageService } from "ngx-webstorage";
 import { NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmModalComponent } from "../confirm-modal/confirm-modal.component";
-import { CONFIRM_DELETE_DESCRIPTION, CONFIRM_DELETE_TITLE, LOCAL_STORAGE_TWEETS_KEY } from "../../app.constants";
+import {
+  CONFIRM_DELETE_DESCRIPTION,
+  CONFIRM_DELETE_TITLE,
+  TWEET_DATE_FORMAT,
+  LOCAL_STORAGE_TWEETS_KEY
+} from "../../app.constants";
 import {interval, Subscription} from "rxjs";
 
 @Component({
@@ -18,7 +23,6 @@ export class TweetComponent implements OnInit{
   @Input() tweets: Tweet[] = [];
   @Output() removeTweet = new EventEmitter<string>();
 
-
   private intervalSubscription!: Subscription;
 
   constructor(private datePipe: DatePipe,
@@ -26,12 +30,12 @@ export class TweetComponent implements OnInit{
               private modalService: NgbModal) {
   }
 
-  deleteTweet(tweetId: string) {
-    this.removeTweet.emit(tweetId);
-  }
-
   ngOnInit() {
     this.startInterval();
+  }
+
+  deleteTweet(tweetId: string) {
+    this.removeTweet.emit(tweetId);
   }
 
   private startInterval() {
@@ -43,7 +47,13 @@ export class TweetComponent implements OnInit{
     });
   }
 
-  getElapsedTime(date: Date): string {
+  ngOnDestroy() {
+    if (this.intervalSubscription) {
+      this.intervalSubscription.unsubscribe();
+    }
+  }
+
+  private getElapsedTime(date: Date): string {
     const now = new Date();
     const elapsed = now.getTime() - date.getTime();
     const seconds = Math.floor(elapsed / 1000);
@@ -55,7 +65,7 @@ export class TweetComponent implements OnInit{
   }
 
   getDateHour(date: Date): any {
-    return this.datePipe.transform(date, 'MM/dd/yyyy HH:mm:ss');
+    return this.datePipe.transform(date, TWEET_DATE_FORMAT);
   }
 
   openConfirmDeleteModal(tweetId: string) {
@@ -65,11 +75,5 @@ export class TweetComponent implements OnInit{
     modalRef.componentInstance.confirmed.subscribe(() => {
         this.deleteTweet(tweetId);
     });
-  }
-
-  ngOnDestroy() {
-    if (this.intervalSubscription) {
-      this.intervalSubscription.unsubscribe();
-    }
   }
 }

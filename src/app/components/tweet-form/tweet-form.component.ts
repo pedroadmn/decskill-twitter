@@ -16,15 +16,15 @@ export class TweetFormComponent {
 
   constructor() {}
 
+  ngOnInit(): void {}
+
   get isTweetContentEmpty() {
     return this.tweetContent.trim().length === 0;
   }
 
-  ngOnInit(): void {}
-
   onSubmit($event: Event) {
-    console.log($event);
     $event.preventDefault();
+
     if(this.isTweetContentEmpty) {
       return;
     }
